@@ -1,0 +1,66 @@
+#ifndef PID_H
+#define PID_H
+#include <array>
+
+class PID {
+  unsigned counter;
+  /*
+  * Errors
+  */
+  double p_error;
+  double i_error;
+  double d_error;
+
+  /*
+  * Coefficients
+  */
+
+  double Kp;
+  double Ki;
+  double Kd;
+  
+  double totalError;
+
+public:
+
+	/*
+	* Constructor
+	*/
+	PID();
+
+	/*
+	* Destructor.
+	*/
+	virtual ~PID();
+
+	/*
+	* Initialize PID.
+	*/
+	void Init(const double Kp, const double Ki, const double Kd);
+
+  /**
+   * \brief Get the initialized coefficients.
+   * \return Array of coefficients.
+   */
+  std::array<double, 3> GetCoeffs() const;
+
+    /*
+	* Update the PID error variables given cross track error.
+	*/
+	void UpdateError(const double cte);
+
+	/*
+	* Calculate the total PID error.
+	*/
+	double TotalError() const;
+
+  size_t GetCounter() const;
+
+  /**
+   * \brief Computing a control value by PID controller.
+   * \return Control value
+   */
+  double Compute() const;
+};
+
+#endif /* PID_H */
